@@ -12,23 +12,51 @@ class App extends Component {
         ]
     }
 
-    switchNameHandler = () => {
+    switchNameHandler = (newName) => {
         this.setState({
                           persons: [
-                              {name: "Shreya Surendra", age: 30},
+                              {name: newName, age: 30},
                               {name: "Sharada Surendra", age: 55},
                               {name: "Sharan Surendra", age: 25}
                           ]
                       })
     }
 
+    nameChangedHandler = (event) =>{
+        this.setState({
+                          persons: [
+                              {name: "Sharan Surendra", age: 30},
+                              {name: event.target.value, age: 55},
+                              {name: "Sharan Surendra", age: 25}
+                          ]
+                      })
+    }
+
     render() {
+
+        const style = {
+            backgroundColor: 'white',
+            font: 'inherit',
+            border: '1px solid blue',
+            padding: '8px',
+            cursor: 'pointer'
+        }
+
+
         return (
             <div className="App">
                 <h1>Hi, I am a react app</h1>
-                <button onClick={this.switchNameHandler}>Switch names</button>
-                <Person name={this.state.persons[0].name} age={this.state.persons[0].age}/>
-                <Person name={this.state.persons[1].name} age={this.state.persons[1].age}> Hey
+                <button style={style} onClick={() => this.switchNameHandler('Sharan Surendra!')}>Switch names</button>
+                <Person
+                    name={this.state.persons[0].name}
+                    age={this.state.persons[0].age}
+                    click={this.switchNameHandler.bind(this,'Sharan Surendra from paragraph click!')}
+                />
+                <Person
+                    name={this.state.persons[1].name}
+                    age={this.state.persons[1].age}
+                    changed = {this.nameChangedHandler}
+                > Hey
                     there. Nice to meet you! </Person>
                 <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
             </div>
