@@ -1,5 +1,4 @@
 import React, {Component, useState} from 'react';
-    import Radium,{StyleRoot} from "radium";
 import './App.css';
 import Person from './Person/Person'
 import UserOutput from "./UserOutput/UserOutput";
@@ -141,7 +140,6 @@ class App extends Component {
         }
 
         return (
-            <StyleRoot>
             <div className="App">
                 <h1>Hi, I am a react app</h1>
                 <p className={classes.join(' ')}>This is actually working</p>
@@ -162,12 +160,11 @@ class App extends Component {
                 )}
                 <CharComponent/>
             </div>
-            </StyleRoot>
         );
     }
 }
 
-export default Radium(App);
+export default App;
 
 //using React hooks
 // const app = props => {
