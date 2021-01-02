@@ -1,19 +1,24 @@
 import React, {Component, useState} from 'react';
+    import Radium,{StyleRoot} from "radium";
 import './App.css';
 import Person from './Person/Person'
 import UserOutput from "./UserOutput/UserOutput";
 import UserInput from "./UserInput/UserInput";
+import ValidationComponent from "./ValidationComponent/ValidationComponent";
+import CharComponent from "./CharComponent/CharComponent";
 
 class App extends Component {
 
     state = {
         persons: [
-            {id:'adsad',name: "Shreya", age: 30},
-            {id:'fdgdfg',name: "Sharada", age: 55},
-            {id:'lslda',name: "Sharan", age: 25}
+            {id: 'adsad', name: "Shreya", age: 30},
+            {id: 'fdgdfg', name: "Sharada", age: 55},
+            {id: 'lslda', name: "Sharan", age: 25}
         ],
         username: 'Sharan',
-        showPersons: false
+        showPersons: false,
+        leng: 0,
+        inputForLength: ''
     }
 
     switchNameHandler = (newName) => {
@@ -29,7 +34,7 @@ class App extends Component {
     nameChangedHandler = (event, id) => {
 
         const personIndex = this.state.persons.findIndex(p => {
-            return p.id===id;
+            return p.id === id;
         })
 
         const person = {...this.state.persons[personIndex]};
@@ -39,7 +44,7 @@ class App extends Component {
         persons[personIndex] = person
 
         this.setState({
-                          persons:persons
+                          persons: persons
                       })
     }
 
@@ -55,38 +60,57 @@ class App extends Component {
                       })
     }
 
-    deletePersonsHandler = (personIndex) =>{
-    const currPersons = this.state.persons;
-    currPersons.splice(personIndex,1);
-    this.setState({persons: currPersons});
+    deletePersonsHandler = (personIndex) => {
+        const currPersons = this.state.persons;
+        currPersons.splice(personIndex, 1);
+        this.setState({persons: currPersons});
+    }
+
+    inputForLength = (event) => {
+        this.setState({
+                          leng: event.target.value.length,
+                          inputForLength: event.target.value
+                      })
+    }
+
+    removeLetterForInputLength = (index) => {
+        const chars = this.state.inputForLength.split("");
+        chars.splice(index,1)
+
+        this.setState({
+                          inputForLength: chars.join('')
+                      })
     }
 
     render() {
 
         const style = {
-            backgroundColor: 'white',
+            backgroundColor: 'green',
+            color: 'white',
             font: 'inherit',
             border: '1px solid blue',
             padding: '8px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            ':hover':{
+                backgroundColor: 'lightgreen',
+                color: 'black'
+            }
         }
 
         let persons = null;
 
-        if(this.state.showPersons){
+        if (this.state.showPersons) {
             persons = (
                 <div>
-                    {this.state.persons.map((person,index) => {
+                    {this.state.persons.map((person, index) => {
                         return <Person
-                        name={person.name}
-                        age={person.age}
-                        click={() => this.deletePersonsHandler(index)}
-                        key ={person.id}
-                        changed = {(event)=>this.nameChangedHandler(event,person.id)}
+                            name={person.name}
+                            age={person.age}
+                            click={() => this.deletePersonsHandler(index)}
+                            key={person.id}
+                            changed={(event) => this.nameChangedHandler(event, person.id)}
                         />
                     })}
-
-
                     {/*<Person*/}
                     {/*    name={this.state.persons[0].name}*/}
                     {/*    age={this.state.persons[0].age}*/}
@@ -100,23 +124,50 @@ class App extends Component {
                     {/*> Hey there. Nice to meet you! </Person>*/}
                     {/*<Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>*/}
                 </div>
-            );
+        );
+            style.backgroundColor = 'red'
+            style[":hover"] = {
+                backgroundColor: 'salmon',
+                color: 'black'
+            }
+        }
+
+        const classes = [];
+        if(this.state.persons.length <= 2){
+            classes.push('red');
+        }
+        if(this.state.persons.length <= 1){
+            classes.push('bold');
         }
 
         return (
+            <StyleRoot>
             <div className="App">
                 <h1>Hi, I am a react app</h1>
+                <p className={classes.join(' ')}>This is actually working</p>
                 <button style={style} onClick={this.togglePersonHandler}>Switch names</button>
                 {persons}
-                <UserInput changeUserName={this.userNameChangeHandler}/>
-                <UserOutput name={this.state.username}/>
+                {/*<UserInput changeUserName={this.userNameChangeHandler}/>*/}
+                {/*<UserOutput name={this.state.username}/>*/}
+                <input type="text" onChange={(event) => this.inputForLength(event)} value={this.state.inputForLength}/>
+                {this.state.leng}
+                <ValidationComponent leng={this.state.leng}/>
+                {this.state.inputForLength.split("").map((letter,index) => {
+                                                             return <CharComponent
+                                                                 letter={letter}
+                                                                 clicked={()=>this.removeLetterForInputLength(index)}
+                                                                 key = {index}
+                                                             />
+                                                         }
+                )}
+                <CharComponent/>
             </div>
-
+            </StyleRoot>
         );
     }
 }
 
-export default App;
+export default Radium(App);
 
 //using React hooks
 // const app = props => {
