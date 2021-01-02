@@ -11,16 +11,12 @@ const person = (props) => {
     // }
 
     const StyledDiv =
-        styled.div`width: 50%;
+        styled.div`width: 65%;
     margin: auto;
     border: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
     padding: 16px;
     text-align: center;
-    
-      '@media (min-width: 500px)': {
-            width: '450px'
-        }
     `;
 
     return (

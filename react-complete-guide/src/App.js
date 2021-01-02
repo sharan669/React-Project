@@ -1,10 +1,26 @@
 import React, {Component, useState} from 'react';
 import './App.css';
 import Person from './Person/Person'
+import styled from 'styled-components'
 import UserOutput from "./UserOutput/UserOutput";
 import UserInput from "./UserInput/UserInput";
 import ValidationComponent from "./ValidationComponent/ValidationComponent";
 import CharComponent from "./CharComponent/CharComponent";
+
+const StyledButton = styled.button`
+  background-color: ${props => props.alt ? 'red' : 'blue'};
+            color: white;
+            font: inherit;
+            border: 1px solid blue;
+            padding: 8px;
+            cursor: pointer;
+            
+            &:hover {
+                background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+                color: black;
+            }   
+
+`;
 
 class App extends Component {
 
@@ -74,7 +90,7 @@ class App extends Component {
 
     removeLetterForInputLength = (index) => {
         const chars = this.state.inputForLength.split("");
-        chars.splice(index,1)
+        chars.splice(index, 1)
 
         this.setState({
                           inputForLength: chars.join('')
@@ -90,7 +106,7 @@ class App extends Component {
             border: '1px solid blue',
             padding: '8px',
             cursor: 'pointer',
-            ':hover':{
+            ':hover': {
                 backgroundColor: 'lightgreen',
                 color: 'black'
             }
@@ -123,7 +139,7 @@ class App extends Component {
                     {/*> Hey there. Nice to meet you! </Person>*/}
                     {/*<Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>*/}
                 </div>
-        );
+            );
             style.backgroundColor = 'red'
             style[":hover"] = {
                 backgroundColor: 'salmon',
@@ -132,10 +148,10 @@ class App extends Component {
         }
 
         const classes = [];
-        if(this.state.persons.length <= 2){
+        if (this.state.persons.length <= 2) {
             classes.push('red');
         }
-        if(this.state.persons.length <= 1){
+        if (this.state.persons.length <= 1) {
             classes.push('bold');
         }
 
@@ -143,18 +159,19 @@ class App extends Component {
             <div className="App">
                 <h1>Hi, I am a react app</h1>
                 <p className={classes.join(' ')}>This is actually working</p>
-                <button style={style} onClick={this.togglePersonHandler}>Switch names</button>
+                <StyledButton alt={this.state.showPersons} onClick={this.togglePersonHandler}>Switch namess</StyledButton>
                 {persons}
                 {/*<UserInput changeUserName={this.userNameChangeHandler}/>*/}
                 {/*<UserOutput name={this.state.username}/>*/}
-                <input type="text" onChange={(event) => this.inputForLength(event)} value={this.state.inputForLength}/>
+                <input type="text" onChange={(event) => this.inputForLength(event)}
+                       value={this.state.inputForLength}/>
                 {this.state.leng}
                 <ValidationComponent leng={this.state.leng}/>
-                {this.state.inputForLength.split("").map((letter,index) => {
+                {this.state.inputForLength.split("").map((letter, index) => {
                                                              return <CharComponent
                                                                  letter={letter}
-                                                                 clicked={()=>this.removeLetterForInputLength(index)}
-                                                                 key = {index}
+                                                                 clicked={() => this.removeLetterForInputLength(index)}
+                                                                 key={index}
                                                              />
                                                          }
                 )}
