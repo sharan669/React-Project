@@ -7,6 +7,8 @@ import UserInput from "../UserInput/UserInput";
 import ValidationComponent from "../ValidationComponent/ValidationComponent";
 import CharComponent from "../CharComponent/CharComponent";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
+import Persons from "../Components/Persons/Persons";
+import Cockpit from "../Cockpit/Cockpit";
 
 const StyledButton = styled.button`
   background-color: ${props => props.alt ? 'red' : 'blue'};
@@ -25,6 +27,11 @@ const StyledButton = styled.button`
 
 class App extends Component {
 
+    constructor(props){
+        super(props);
+        console.log('[App.js] constructor')
+    }
+
     state = {
         persons: [
             {id: 'adsad', name: "Shreya", age: 30},
@@ -35,6 +42,15 @@ class App extends Component {
         showPersons: false,
         leng: 0,
         inputForLength: ''
+    }
+
+    static getDerivedStateFromProps(props, state){
+        console.log('[App,js] getDerivedStateFromProps', props);
+        return state;
+    }
+
+    componentDidMount() {
+        console.log('[App.js] componentDidMount')
     }
 
     switchNameHandler = (newName) => {
@@ -99,6 +115,7 @@ class App extends Component {
     }
 
     render() {
+        console.log('[App,js] render');
 
         const style = {
             backgroundColor: 'green',
@@ -114,56 +131,27 @@ class App extends Component {
         }
 
         let persons = null;
-        let btnClass = [classes.Button]
-
         if (this.state.showPersons) {
             persons = (
-                <div>
-                    {this.state.persons.map((person, index) => {
-                        return <ErrorBoundary key={person.id}
-                        ><Person
-                            name={person.name}
-                            age={person.age}
-                            click={() => this.deletePersonsHandler(index)}
-                            changed={(event) => this.nameChangedHandler(event, person.id)}
-                        /></ErrorBoundary>
-                    })}
-                    {/*<Person*/}
-                    {/*    name={this.state.persons[0].name}*/}
-                    {/*    age={this.state.persons[0].age}*/}
-                    {/*    click={this.switchNameHandler.bind(this,*/}
-                    {/*                                       'Sharan Surendra from paragraph click!')}*/}
-                    {/*/>*/}
-                    {/*<Person*/}
-                    {/*    name={this.state.persons[1].name}*/}
-                    {/*    age={this.state.persons[1].age}*/}
-                    {/*    changed={this.nameChangedHandler}*/}
-                    {/*> Hey there. Nice to meet you! </Person>*/}
-                    {/*<Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>*/}
-                </div>
+                    <Persons
+                    persons={this.state.persons}
+                    clicked = {this.deletePersonsHandler}
+                    changed = {this.nameChangedHandler}
+                    />
             );
-
-            btnClass.push(classes.Red)
         }
 
-        const assignedClasses = [];
-        if (this.state.persons.length <= 2) {
-            assignedClasses.push(classes.red);
-        }
-        if (this.state.persons.length <= 1) {
-            assignedClasses.push(classes.bold);
-        }
+
 
         return (
             <div className={classes.App}>
-                <h1>Hi, I am a react app</h1>
-                <p className={assignedClasses.join(' ')}>This is actually working</p>
-                <button className={btnClass.join(' ')} onClick={this.togglePersonHandler}>Switch
-                    names
-                </button>
+                <Cockpit
+                    title={this.props.appTitle}
+                    showPersons={this.state.showPersons}
+                    persons = {this.state.persons}
+                    clicked={this.togglePersonHandler}
+                />
                 {persons}
-                {/*<UserInput changeUserName={this.userNameChangeHandler}/>*/}
-                {/*<UserOutput name={this.state.username}/>*/}
                 <input type="text" onChange={(event) => this.inputForLength(event)}
                        value={this.state.inputForLength}/>
                 {this.state.leng}
