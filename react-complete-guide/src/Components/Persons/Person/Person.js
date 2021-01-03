@@ -1,6 +1,5 @@
 import React from 'react'
-//import './Person.css'
-import styled from 'styled-components'
+import classes from './Person.css'
 
 const person = (props) => {
 
@@ -10,22 +9,19 @@ const person = (props) => {
     //     }
     // }
 
-    const StyledDiv =
-        styled.div`width: 65%;
-    margin: auto;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 3px #ccc;
-    padding: 16px;
-    text-align: center;
-    `;
+    // const rnd = Math.random();
+    //
+    // if(rnd>0.7){
+    //     throw new Error('Something went wrong');
+    // }
 
     return (
-        <StyledDiv>
+        <div className={classes.Person}>
         <p onClick={props.click}>I'm a person!! I am {props.name} and my age is {props.age}</p>
         < p> {props.children}
         </p>
         <input type="text" onChange={props.changed} value={props.name}/>
-    </StyledDiv>
+    </div>
 )
 }
 
