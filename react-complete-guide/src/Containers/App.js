@@ -41,7 +41,8 @@ class App extends Component {
         username: 'Sharan',
         showPersons: false,
         leng: 0,
-        inputForLength: ''
+        inputForLength: '',
+        showCockpit:true
     }
 
     static getDerivedStateFromProps(props, state){
@@ -154,12 +155,19 @@ class App extends Component {
 
         return (
             <div className={classes.App}>
-                <Cockpit
+                <button
+                onClick={()=> {
+                    this.setState({
+                                      showCockpit:false
+                                  })
+                }}
+                >Remove Cockpit</button>
+                { this.state.showCockpit ? <Cockpit
                     title={this.props.appTitle}
                     showPersons={this.state.showPersons}
                     persons = {this.state.persons}
                     clicked={this.togglePersonHandler}
-                />
+                />: null}
                 {persons}
                 <input type="text" onChange={(event) => this.inputForLength(event)}
                        value={this.state.inputForLength}/>
