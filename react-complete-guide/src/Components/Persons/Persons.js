@@ -1,31 +1,32 @@
-import React,{Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import Person from './Person/Person'
 import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
-class Persons extends Component {
+class Persons extends PureComponent {
 
-    static getDerivedStateFromProps(props,state){
+    static getDerivedStateFromProps(props, state) {
         console.log('[Persons.js] getDerivedStateFromProps')
         return null;
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('[Persons.js] shouldComponentUpdate')
-        if(nextProps.persons !== this.props.persons){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[Persons.js] shouldComponentUpdate')
+    //     if (nextProps.persons !== this.props.persons ||
+    //         nextProps.changed !== this.props.changed ||
+    //         nextProps.clicked !== this.props.clicked) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
         console.log('[Persons.js] getSnapshotBeforeUpdate');
-        return {message:'Snapshot!'}
+        return {message: 'Snapshot!'}
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){
+    componentDidUpdate(prevProps, prevState, snapshot) {
         console.log('[Persons.js] componentDidUpdate')
         console.log(snapshot)
     }
@@ -36,7 +37,7 @@ class Persons extends Component {
 
     render() {
         console.log('[Persons.js] render', this.props);
-        return  this.props.persons.map((person, index) => {
+        return this.props.persons.map((person, index) => {
 
             return <Person
                 name={person.name}
@@ -49,6 +50,6 @@ class Persons extends Component {
 
     }
 
-    };
+};
 
 export default Persons
